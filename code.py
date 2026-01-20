@@ -1,22 +1,22 @@
 
-courses = {}
-registeredcourses = []
+courses={}
+registeredcourses=[]
 
-def add(courseid, name):
+def add(courseid,name):
     if courseid in courses:
         print("Course already exists!")
         return
-    courses[courseid]={"name": name, "prereqs": []}
+    courses[courseid] = {"name": name,"prereqs":[]}
     print(f"Added course {courseid}: {name}")
 
-def addPrereq(courseid, prereqid):
+def addPrereq(courseid,prereqid):
     if courseid==prereqid:
         print("A course cannot be its own prerequisite.")
         return
     if courseid not in courses or prereqid not in courses:
         print("One or both courses do not exist.")
         return
-    if courseid in getAllPrereqs(prereqid, []):
+    if courseid in getAllPrereqs(prereqid,[]):
         print("Cannot add prerequisite: would create a cycle.")
         return
     if prereqid not in courses[courseid]["prereqs"]:
@@ -31,11 +31,11 @@ def remove(courseid):
         if courseid in c["prereqs"]:
             c["prereqs"].remove(courseid)
 
-def getAllPrereqs(courseid, visited):
+def getAllPrereqs(courseid,visited):
     if courseid in visited:
         return []
     visited.append(courseid)
-    prereqs = []
+    prereqs=[]
     if courseid in courses:
         for j in courses[courseid]["prereqs"]:
             if j not in prereqs:
@@ -46,36 +46,36 @@ def getAllPrereqs(courseid, visited):
     return prereqs
 
 def listPrerequisites(courseid):
-    return getAllPrereqs(courseid, [])
+    return getAllPrereqs(courseid,[])
 
-def canEnroll(courseid, compcourses):
-    prereqs = getAllPrereqs(courseid, [])
+def canEnroll(courseid,compcourses):
+    prereq=getAllPrereqs(courseid, [])
     return all(p in compcourses for p in prereqs)
 
 
 while True:
-    print("\n    Course Manager    ")
-    print("1. Add Course")
-    print("2. Add Prerequisite")
-    print("3. Remove Course")
-    print("4. List Prerequisites")
-    print("5. Can Enroll?")
-    print("6. Show All Courses")
-    print("7. Register a Course")
-    print("8. Show Registered Courses")
-    print("0. Exit")
+    print("\n  Course Manager   ")
+    print("1.Add Course")
+    print("2.Add Prerequisite")
+    print("3.Remove Course")
+    print("4.List Prerequisites")
+    print("5.Can Enroll?")
+    print("6.Show All Courses")
+    print("7.Register a Course")
+    print("8.Show Registered Courses")
+    print("0.Exit")
 
-    choice = input("Enter choice: ")
+    choice=input("Enter choice: ")
 
     if choice=="1":
         cid=input("Enter course ID: ")
         name=input("Enter course name: ")
-        add(cid, name)
+        add(cid,name)
 
     elif choice=="2":
         cid=input("Enter course ID: ")
         pre=input("Enter prerequisite course ID: ")
-        addPrereq(cid, pre)
+        addPrereq(cid,pre)
 
     elif choice=="3":
         cid=input("Enter course ID to remove: ")
@@ -83,13 +83,13 @@ while True:
 
     elif choice=="4":
         cid=input("Enter course ID: ")
-        print("Prerequisites:", listPrerequisites(cid))
+        print("Prerequisites:",listPrerequisites(cid))
 
     elif choice=="5":
-        cid=input("Enter course ID: ")
-        completed=input("Enter completed courses (comma separated): ").split(",")
-        completed=[c.strip() for c in completed]
-        print("Can enroll?", canEnroll(cid, completed))
+        cid = input("Enter course ID: ")
+        completed = input("Enter completed courses (comma separated): ").split(",")
+        completed = [c.strip() for c in completed]
+        print("Can enroll?",canEnroll(cid,completed))
 
     elif choice=="6":
         print("All Courses:")
@@ -107,11 +107,11 @@ while True:
             print(f"Registered course {cid}")
 
     elif choice=="8":
-        print("Registered Courses:", registeredcourses)
+        print("Registered Courses:",registeredcourses)
 
     elif choice=="0":
-        print("Exiting.")
+        print("Exiting")
         break
 
     else:
-        print("Invalid choice.Try again.")
+        print("Invalid choice. Try again.")
